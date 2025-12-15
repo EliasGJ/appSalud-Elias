@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title%>
+    </title>
+</head>
+
+<body>
+    <span style="color: red;">
+        <%= message %>
+    </span>
+
+    <h1>Lista de Pacientes</h1>
+
+    <ul>
+        <% pacientes.forEach(function(paciente) { %>
+            <li>
+                <strong>
+                    <%= paciente.nombre %>
+                        <%= paciente.apellidos %>
+                </strong>
+                <!-- Boton para ver el paciente-->
+                <a href="/paciente/<%= paciente.id %>">Ver</a>
+                <!-- Boton para actualizar el paciente-->
+                <a href="/paciente/editar/<%= paciente.id %>">Actualizar</a>
+                <!-- Boton para elimar el paciente-->
+                <form action="/paciente/<%= paciente.id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </li>
+            <% }); %>
+    </ul>
+
+    <!--Nuevo Paciente-->
+
+    <h2>Agregar Nuevo Paciente</h2>
+    <form action="/paciente" method="POST">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <br>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" id="apellidos" name="apellidos" required>
+        <br>
+        <label for="fechaDeNacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fechaDeNacimiento" name="fechaDeNacimiento" required>
+        <br>
+        <button type="submit">Agregar Paciente</button>
+    </form>
+
+</body>
+
+</html>

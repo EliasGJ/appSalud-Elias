@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title%></title>
+</head>
+<body>
+    <span style="color: red;">
+        <%= message %>
+    </span>
+
+    <% if (paciente) { %>
+        <h1>Detalles del Paciente</h1>
+        <ul>
+            <li><strong>Id:</strong> <%= paciente.id %></li>
+            <li><strong>Nombre:</strong> <%= paciente.nombre %></li>
+            <li><strong>Apellidos:</strong> <%= paciente.apellidos %></li>
+            <li><strong>Fecha Nacimiento:</strong> <%= new Date(paciente.fechaDeNacimiento).toLocaleDateString('es-Es') %></li>
+
+        </ul>
+        <% } %>
+
+            <a href="/">Volver a la lista de pacientes</a>
+
+</body>
+</html>
