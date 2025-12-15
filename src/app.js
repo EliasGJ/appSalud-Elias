@@ -11,7 +11,7 @@ const basculaRouter = require('./routes/bascula');
 const app = express();
 const PORT = 3000;
 
-
+   
 //middlewares
 //Interpreta los datos de formulario HTML.
 app.use(bodyParser.urlencoded({extended: true}));
