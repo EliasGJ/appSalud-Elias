@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const methodOverride = require('method-override');
-
+ 
 //rutas
 const pacienteRouter = require('./routes/paciente');
 const basculaRouter = require('./routes/bascula');
