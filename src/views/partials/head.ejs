@@ -14,6 +14,28 @@
 </head>
 
 <body>
-    <span style="color: red;">
-        <%= message %>
-    </span>
+        <header class="py-2">
+                <div class="container d-flex justify-content-between align-items-center">
+                        <div>
+                                <span class="fw-bold">AppSalud</span>
+                        </div>
+                        <div class="header-datetime text-muted small" id="header-datetime" aria-live="polite">&nbsp;</div>
+                </div>
+        </header>
+        <script>
+            (function(){
+                function updateMadridTime(){
+                    try{
+                        const now = new Date();
+                        const opts = { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Europe/Madrid', hour12: false };
+                        const formatter = new Intl.DateTimeFormat('es-ES', opts);
+                        document.getElementById('header-datetime').textContent = formatter.format(now) + ' (España)';
+                    }catch(e){
+                        // fallback
+                        document.getElementById('header-datetime').textContent = new Date().toLocaleString();
+                    }
+                }
+                updateMadridTime();
+                setInterval(updateMadridTime, 1000);
+            })();
+        </script>

@@ -117,9 +117,9 @@ const eliminarPaciente = async (req, res) => {
 const listarPaciente = async (req, res ) => {
     const pacientes = await pacienteRepository.listar();
     res.render('index', { 
-        title: ' App Salud',
-        pacientes,
-        message: 'Bienvenidos a la App Salud' });
+    title: ' App Salud',
+    pacientes,
+    message: 'Bienvenido a Odin, un aliado diseñado para ayudarte a cuidar tu bienestar cada día.' });
 };
 
 

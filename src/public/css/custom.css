@@ -30,3 +30,10 @@ header {
 .badge.bg-secondary {
   background-color: #2f7a5a;
 }
+
+/* Husky animation */
+.husky { transform-origin: center; animation: husky-bob 3s ease-in-out infinite; }
+@keyframes husky-bob { 0% { transform: translateY(0); } 50% { transform: translateY(-4px) rotate(-1deg); } 100% { transform: translateY(0); } }
+
+/* Header datetime styling */
+.header-datetime { font-variant-numeric: tabular-nums; font-weight: 700; }
