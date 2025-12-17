@@ -75,6 +75,21 @@ class Bascula {
     return Number(imc.toFixed(2));
   }
 
+  // Alias/compatibilidad y nombre correcto
+  calcularIMC() {
+    return this.calcularIMCO();
+  }
+
+  obtenerUltimoRegistro() {
+    if (this.pesos.length === 0) return null;
+    const i = this.pesos.length - 1;
+    return {
+      peso: this.pesos[i],
+      altura: this.alturas[i],
+      fecha: this.fechas[i]
+    };
+  }
+
   describirIMC(imc) {
     let resultado = "";
     if (imc < 16) {

@@ -10,6 +10,7 @@ const obtenerPaciente = async (req, res ) => {
     if (!paciente) {
         return res.render('buscar', {
             title: 'App Salud',
+            paciente: null,
             message: 'Error: Paciente no encontrado'});
     }
 
@@ -23,6 +24,9 @@ const obtenerPaciente = async (req, res ) => {
 
 const crearPaciente = async (req, res ) => {
     const { nombre, apellidos, fechaDeNacimiento } = req.body;
+    // aceptar opcionalmente peso, altura y temperatura al crear
+    const { peso, altura, temperatura } = req.body;
+
     if (!nombre || !apellidos || !fechaDeNacimiento) {
         return res.render('index', {
             title: ' App Salud',
@@ -30,7 +34,15 @@ const crearPaciente = async (req, res ) => {
             message: 'Error: Todos los campos son obligatorios'});
     }
     //guardar el nuevo paciente
-    await pacienteRepository.guardar({ nombre, apellidos, fechaDeNacimiento });
+    const nuevoPaciente = await pacienteRepository.guardar({ nombre, apellidos, fechaDeNacimiento });
+
+    // Si se enviaron lecturas iniciales, persistirlas
+    if (peso) {
+        await pacienteRepository.guardarBascula(nuevoPaciente.id, parseFloat(peso), altura ? parseFloat(altura) : null);
+    }
+    if (temperatura) {
+        await pacienteRepository.guardarTermometro(nuevoPaciente.id, parseFloat(temperatura));
+    }
     const pacientes =  await pacienteRepository.listar();
     res.render('index', { 
         title: ' App Salud',
@@ -50,6 +62,24 @@ const mostrarFormularioActualizarPaciente = async (req, res) => {
         message: ''
     });
 };
+const mostrarHistorialPaciente = async (req, res) => {
+    const id = req.params.id;
+    const paciente = await pacienteRepository.buscarPorId(id);
+    if (!paciente) {
+        return res.redirect('/pacientes');
+    }
+
+    const basculas = await pacienteRepository.obtenerHistorialBascula(id);
+    const termometros = await pacienteRepository.obtenerHistorialTermometro(id);
+
+    res.render('historial', {
+        title: 'Historial paciente',
+        paciente,
+        basculas,
+        termometros,
+        message: ''
+    });
+}
 const actualizarPaciente = async (req, res ) => {
     const id = req.params.id;
     const { nombre, apellidos, fechaDeNacimiento } = req.body;
@@ -99,5 +129,6 @@ module.exports = {
     actualizarPaciente,
     eliminarPaciente,
     listarPaciente,
-    mostrarFormularioActualizarPaciente
+    mostrarFormularioActualizarPaciente,
+    mostrarHistorialPaciente
 };

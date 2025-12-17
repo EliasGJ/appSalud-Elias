@@ -1,0 +1,32 @@
+/* Custom health-themed background and accents */
+body {
+  background-color: #e6f7ee; /* light green/menta */
+  color: #063b2f; /* dark green text */
+}
+
+/* Ensure cards and tables keep a solid white background so the page background doesn't interfere */
+.card,
+.card .card-body,
+.card-header,
+.card-footer,
+.table,
+.table-responsive,
+aside,
+header {
+  background-color: #ffffff; /* solid white for good contrast */
+}
+
+/* Accent buttons */
+.btn-primary {
+  background-color: #0d6b4a;
+  border-color: #0d6b4a;
+}
+.btn-outline-primary {
+  color: #0d6b4a;
+  border-color: #0d6b4a;
+}
+
+/* Badge color */
+.badge.bg-secondary {
+  background-color: #2f7a5a;
+}

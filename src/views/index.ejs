@@ -1,56 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('partials/head') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title%>
-    </title>
-</head>
+<div class="container my-5">
+    <header class="d-flex justify-content-between align-items-center bg-light p-4 rounded-3 shadow-sm mb-4">
+        <div>
+            <h1 class="h4 mb-1">Lista de Pacientes</h1>
+            <p class="mb-0 text-muted">Administración rápida de registros — vista general</p>
+        </div>
+        <div class="text-end">
+            <span class="badge bg-secondary fs-6"><%= pacientes && pacientes.length ? pacientes.length : 0 %> pacientes</span>
+        </div>
+    </header>
 
-<body>
-    <span style="color: red;">
-        <%= message %>
-    </span>
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellidos</th>
+                                    <th>Fecha Nacimiento</th>
+                                    <th class="text-end">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (pacientes && pacientes.length) { %>
+                                    <% pacientes.forEach(function(paciente) { %>
+                                        <tr class="border-top">
+                                            <td class="fw-semibold"><%= paciente.nombre %></td>
+                                            <td class="text-muted"><%= paciente.apellidos %></td>
+                                            <td class="text-muted"><%= paciente.fechaDeNacimiento ? paciente.fechaDeNacimiento.toISOString().slice(0,10) : '' %></td>
+                                            <td class="text-end">
+                                                <a href="/paciente/<%= paciente.id %>" class="btn btn-sm btn-outline-primary me-1">Ver</a>
+                                                <a href="/paciente/editar/<%= paciente.id %>" class="btn btn-sm btn-outline-warning me-1">Editar</a>
+                                                <form action="/paciente/<%= paciente.id %>?_method=DELETE" method="POST" class="d-inline">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4">No hay pacientes registrados.</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <h1>Lista de Pacientes</h1>
+        <aside class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Agregar Nuevo Paciente</h6>
+                    <p class="text-muted small">Rellena los datos básicos para registrar un paciente.</p>
+                    <form action="/paciente" method="POST" class="row g-2">
+                        <div class="col-12">
+                            <label for="nombre" class="form-label small">Nombre</label>
+                            <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="apellidos" class="form-label small">Apellidos</label>
+                            <input type="text" class="form-control form-control-sm" id="apellidos" name="apellidos" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="fechaDeNacimiento" class="form-label small">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control form-control-sm" id="fechaDeNacimiento" name="fechaDeNacimiento" required>
+                        </div>
+                        <div class="col-6">
+                            <label for="peso" class="form-label small">Peso (kg)</label>
+                            <input type="number" step="0.1" class="form-control form-control-sm" id="peso" name="peso">
+                        </div>
+                        <div class="col-6">
+                            <label for="altura" class="form-label small">Altura (m)</label>
+                            <input type="number" step="0.01" class="form-control form-control-sm" id="altura" name="altura">
+                        </div>
+                        <div class="col-12">
+                            <label for="temperatura" class="form-label small">Temperatura (°C)</label>
+                            <input type="number" step="0.1" class="form-control form-control-sm" id="temperatura" name="temperatura">
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-sm btn-primary">Agregar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </aside>
+    </div>
 
-    <ul>
-        <% pacientes.forEach(function(paciente) { %>
-            <li>
-                <strong>
-                    <%= paciente.nombre %>
-                        <%= paciente.apellidos %>
-                </strong>
-                <!-- Boton para ver el paciente-->
-                <a href="/paciente/<%= paciente.id %>">Ver</a>
-                <!-- Boton para actualizar el paciente-->
-                <a href="/paciente/editar/<%= paciente.id %>">Actualizar</a>
-                <!-- Boton para elimar el paciente-->
-                <form action="/paciente/<%= paciente.id %>?_method=DELETE" method="POST" style="display:inline;">
-                    <button type="submit">Eliminar</button>
-                </form>
-            </li>
-            <% }); %>
-    </ul>
+</div>
 
-    <!--Nuevo Paciente-->
-
-    <h2>Agregar Nuevo Paciente</h2>
-    <form action="/paciente" method="POST">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-        <br>
-        <label for="apellidos">Apellidos:</label>
-        <input type="text" id="apellidos" name="apellidos" required>
-        <br>
-        <label for="fechaDeNacimiento">Fecha de Nacimiento:</label>
-        <input type="date" id="fechaDeNacimiento" name="fechaDeNacimiento" required>
-        <br>
-        <button type="submit">Agregar Paciente</button>
-    </form>
-
-</body>
-
-</html>
+<%- include('partials/footer') %>
